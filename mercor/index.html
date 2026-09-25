@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CASEFILE</title>
+<meta name="description" content="CASEFILE: citation-verified evaluation of investigative reasoning in long-horizon agents. A Mercor Research Fellowship proposal by Natalia Mawyin.">
+<meta property="og:title" content="CASEFILE">
+<meta property="og:description" content="Can an agent rebuild what happened from 300 documents, cite every claim, catch planted contradictions, and say what the record can't answer?">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect x=%224%22 y=%223%22 width=%2224%22 height=%2226%22 rx=%224%22 fill=%22%230c0d12%22/%3E%3Cpath d=%22M9 11h14M9 16h14M9 21h8%22 stroke=%22%2367e8f9%22 stroke-width=%222.2%22 stroke-linecap=%22round%22/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800&family=Hanken+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Martian+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  --ground: #f3f4f6; --ground-2: #e7e9ee; --paper: #ffffff; --ink: #121419; --muted: #5a6170; --rule: #d3d7de;
+  --ok: hsl(158 64% 30%); --judge: hsl(38 80% 34%); --bad: hsl(354 66% 42%); --key: hsl(190 70% 30%);
+  --night: #0c0d12; --night-2: #15171e; --night-ink: #eef0f4; --night-muted: #9aa1b0; --night-rule: #262a35;
+  --display: "Unbounded", "Arial Black", system-ui, sans-serif;
+  --text: "Hanken Grotesk", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --mono: "Martian Mono", ui-monospace, Menlo, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground: #101117; --ground-2: #1a1c24; --paper: #15171e; --ink: #eceef3; --muted: #9ba2b1; --rule: #2a2e39;
+    --ok: hsl(158 60% 62%); --judge: hsl(40 88% 64%); --bad: hsl(354 85% 70%); --key: hsl(190 80% 66%);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --ground: #101117; --ground-2: #1a1c24; --paper: #15171e; --ink: #eceef3; --muted: #9ba2b1; --rule: #2a2e39;
+  --ok: hsl(158 60% 62%); --judge: hsl(40 88% 64%); --bad: hsl(354 85% 70%); --key: hsl(190 80% 66%);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { margin: 0; background: var(--ground); color: var(--ink); font-family: var(--text); font-size: 1.0625rem; line-height: 1.55; -webkit-font-smoothing: antialiased; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+a { color: inherit; text-underline-offset: 0.2em; }
+:focus-visible { outline: 2px solid var(--key); outline-offset: 3px; border-radius: 4px; }
+h1, h2, h3 { margin: 0; text-wrap: balance; }
+p { margin: 0; }
+.num { font-family: var(--mono); font-weight: 500; font-variant-numeric: tabular-nums; }
+.wrap { max-width: 64rem; margin: 0 auto; padding-inline: clamp(1rem, 4vw, 2.5rem); }
+
+.hero { background: var(--night); color: var(--night-ink); padding-block: 1rem clamp(2.5rem, 6vw, 4rem); }
+.topnav { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; padding-block: 0.5rem 2.5rem; font-size: 0.92rem; color: var(--night-muted); }
+.topnav a { color: var(--night-muted); text-decoration: none; }
+.topnav a:hover { color: var(--night-ink); }
+.eyebrow { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: hsl(190 80% 66%); }
+.title { font-family: var(--display); font-weight: 800; letter-spacing: -0.04em; line-height: 0.95; font-size: clamp(3rem, 12vw, 6.5rem); margin-top: 0.8rem; }
+.subtitle { font-family: var(--display); font-weight: 600; letter-spacing: -0.02em; font-size: clamp(1.1rem, 2.6vw, 1.55rem); line-height: 1.25; margin-top: 1rem; max-width: 40rem; }
+.tagline { margin-top: 1.25rem; font-size: 1.12rem; color: var(--night-muted); max-width: 44rem; }
+.meta { list-style: none; padding: 0; margin: 2rem 0 0; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.meta li { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.04em; border: 1px solid var(--night-rule); border-radius: 999px; padding: 0.35rem 0.75rem; color: var(--night-ink); }
+
+section.block { padding-block: clamp(2.5rem, 6vw, 4rem); border-top: 1px solid var(--rule); display: grid; gap: 1.4rem; }
+section.block:first-of-type { border-top: 0; }
+.label { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--key); }
+h2 { font-family: var(--display); font-weight: 600; letter-spacing: -0.02em; font-size: clamp(1.35rem, 3.2vw, 2rem); line-height: 1.15; max-width: 42rem; }
+.lede { font-size: 1.12rem; max-width: 44rem; }
+.muted { color: var(--muted); }
+
+.fails { display: grid; gap: 1rem; grid-template-columns: 1fr; }
+@media (min-width: 760px) { .fails { grid-template-columns: repeat(3, 1fr); } }
+.fail { background: var(--paper); border: 1px solid var(--rule); border-radius: 14px; padding: 1.1rem; display: grid; gap: 0.4rem; align-content: start; }
+.fail b { font-family: var(--display); font-weight: 600; font-size: 1rem; }
+.fail span { color: var(--muted); font-size: 0.98rem; }
+.fail .num { color: var(--bad); font-size: 0.8rem; }
+
+.case { background: var(--night); color: var(--night-ink); border-radius: 18px; overflow: hidden; }
+.case-head { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem 1rem; padding: 1rem 1.2rem; border-bottom: 1px solid var(--night-rule); }
+.case-head b { font-family: var(--display); font-weight: 600; }
+.case-head span { font-family: var(--mono); font-size: 0.68rem; color: var(--night-muted); }
+.case-grid { display: grid; grid-template-columns: 1fr; }
+@media (min-width: 860px) { .case-grid { grid-template-columns: 1fr 1fr; } }
+.case-grid > div { padding: 1.1rem 1.2rem; display: grid; gap: 0.6rem; align-content: start; }
+.case-grid > div + div { border-top: 1px solid var(--night-rule); }
+@media (min-width: 860px) { .case-grid > div + div { border-top: 0; border-left: 1px solid var(--night-rule); } }
+.case h3 { font-family: var(--mono); font-weight: 500; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--night-muted); }
+.case ul { margin: 0; padding-left: 1.1rem; display: grid; gap: 0.35rem; font-size: 0.98rem; }
+.plant { border-left: 3px solid hsl(40 88% 64%); padding-left: 0.8rem; font-size: 0.98rem; }
+.plant.q { border-color: hsl(190 80% 66%); }
+
+.grader { display: grid; gap: 1rem; grid-template-columns: 1fr; }
+@media (min-width: 900px) { .grader { grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); } }
+.claims { display: grid; gap: 0.6rem; align-content: start; }
+.claim { text-align: left; font: inherit; color: var(--ink); background: var(--paper); border: 1px solid var(--rule); border-radius: 12px; padding: 0.85rem 1rem; cursor: pointer; display: grid; gap: 0.35rem; transition: border-color 0.2s ease, transform 0.2s ease; }
+.claim:hover { transform: translateY(-2px); }
+.claim[aria-pressed="true"] { border-color: var(--key); box-shadow: 0 0 0 2px var(--key); }
+.claim q { font-size: 0.98rem; quotes: "\201C" "\201D"; }
+.claim small { font-family: var(--mono); font-size: 0.62rem; color: var(--muted); overflow-wrap: anywhere; }
+.pipe { background: var(--paper); border: 1px solid var(--rule); border-radius: 14px; padding: 1rem; display: grid; gap: 0.7rem; align-content: start; }
+.step { display: grid; grid-template-columns: 2rem 1fr; gap: 0.2rem 0.75rem; align-items: start; opacity: 0.35; transition: opacity 0.3s ease; }
+.step.on { opacity: 1; }
+.step i { grid-row: span 2; width: 2rem; height: 2rem; border-radius: 50%; display: grid; place-items: center; font-style: normal; font-family: var(--mono); font-size: 0.8rem; background: var(--ground-2); color: var(--muted); }
+.step.pass i { background: var(--ok); color: var(--paper); }
+.step.warn i { background: var(--judge); color: var(--paper); }
+.step.fail i { background: var(--bad); color: var(--paper); }
+.step b { font-size: 0.98rem; }
+.step b small { font-family: var(--mono); font-weight: 400; font-size: 0.6rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin-left: 0.4rem; }
+.step span { font-size: 0.92rem; color: var(--muted); }
+.verdict { margin-top: 0.3rem; padding: 0.8rem 0.9rem; border-radius: 10px; font-weight: 600; background: var(--ground-2); }
+.verdict.pass { color: var(--ok); } .verdict.fail { color: var(--bad); } .verdict.warn { color: var(--judge); }
+.scores { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+.score { background: var(--ground-2); border-radius: 10px; padding: 0.7rem 0.8rem; display: grid; gap: 0.1rem; }
+.score .num { font-size: 1.35rem; }
+.score span { font-size: 0.8rem; color: var(--muted); line-height: 1.3; }
+.fine { font-size: 0.85rem; color: var(--muted); }
+
+.twocol { display: grid; gap: 1.25rem; grid-template-columns: 1fr; }
+@media (min-width: 800px) { .twocol { grid-template-columns: 1fr 1fr; } }
+.card { background: var(--paper); border: 1px solid var(--rule); border-radius: 14px; padding: 1.1rem 1.2rem; display: grid; gap: 0.55rem; align-content: start; }
+.card h3 { font-family: var(--display); font-weight: 600; font-size: 1rem; }
+.card ul { margin: 0; padding-left: 1.1rem; display: grid; gap: 0.35rem; font-size: 0.98rem; }
+.headline { display: grid; gap: 0.8rem; grid-template-columns: 1fr; }
+@media (min-width: 760px) { .headline { grid-template-columns: repeat(3, 1fr); } }
+.metric { border-top: 3px solid var(--key); padding-top: 0.7rem; display: grid; gap: 0.3rem; }
+.metric:nth-child(2) { border-color: var(--bad); } .metric:nth-child(3) { border-color: var(--judge); }
+.metric b { font-family: var(--display); font-weight: 600; font-size: 1rem; }
+.metric span { font-size: 0.95rem; color: var(--muted); }
+
+.tiers { display: grid; gap: 0.6rem; grid-template-columns: 1fr; }
+@media (min-width: 760px) { .tiers { grid-template-columns: repeat(3, 1fr); } }
+.tier { border-radius: 12px; padding: 0.9rem 1rem; background: var(--ground-2); display: grid; gap: 0.2rem; }
+.tier b { font-size: 0.98rem; } .tier span { font-size: 0.9rem; color: var(--muted); }
+
+.plan { display: grid; gap: 0.5rem; }
+.week { display: grid; grid-template-columns: 1fr; gap: 0.2rem 1rem; padding: 0.7rem 0; border-bottom: 1px solid var(--rule); }
+@media (min-width: 700px) { .week { grid-template-columns: 7rem 1fr; } }
+.week .num { font-size: 0.78rem; color: var(--key); }
+.week p { font-size: 0.98rem; }
+.bar { height: 6px; border-radius: 999px; background: linear-gradient(90deg, var(--key) var(--p), var(--ground-2) var(--p)); }
+
+.why { display: grid; gap: 0.8rem; grid-template-columns: 1fr; }
+@media (min-width: 800px) { .why { grid-template-columns: 1fr 1fr; } }
+.why a.card { text-decoration: none; transition: transform 0.2s ease; }
+.why a.card:hover { transform: translateY(-3px); }
+.why .card span { color: var(--muted); font-size: 0.96rem; }
+.tag { width: max-content; font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--key); border: 1px solid var(--key); border-radius: 999px; padding: 0.15rem 0.5rem; }
+
+.risks { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 0.96rem; min-width: 36rem; }
+th, td { text-align: left; vertical-align: top; padding: 0.7rem 0.8rem 0.7rem 0; border-bottom: 1px solid var(--rule); }
+th { font-family: var(--mono); font-weight: 500; font-size: 0.66rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+
+.close { background: var(--night); color: var(--night-ink); padding-block: clamp(2.5rem, 6vw, 4rem); }
+.close h2 { color: var(--night-ink); }
+.close p { color: var(--night-muted); max-width: 44rem; }
+.close .links { display: flex; flex-wrap: wrap; gap: 0.7rem; margin-top: 1.4rem; }
+.close .links a { font-family: var(--display); font-weight: 600; text-decoration: none; padding: 0.65rem 1.2rem; border-radius: 999px; background: hsl(190 80% 66%); color: var(--night); }
+.close .links a + a { background: hsl(40 88% 64%); }
+.close .links a + a + a { background: hsl(320 75% 72%); }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <nav class="topnav" aria-label="Page"><a href="../">← Natalia Mawyin</a><span>Mercor Research Fellowship proposal</span></nav>
+    <p class="eyebrow">Benchmark proposal · extends APEX-Agents</p>
+    <h1 class="title">CASEFILE</h1>
+    <p class="subtitle">Citation-verified evaluation of investigative reasoning in long-horizon agents</p>
+    <p class="tagline">An agent gets a 300-document forensic-accounting archive. It has to rebuild what happened, cite evidence for every claim, catch the contradictions experts planted, and say what the record cannot answer. Every run gets a freshly generated archive.</p>
+    <ul class="meta">
+      <li>12 weeks · 30+ h/week</li>
+      <li>1 domain committed: forensic accounting</li>
+      <li>~350 expert hours</li>
+      <li>Natalia Mawyin</li>
+    </ul>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="block" aria-labelledby="h-gap">
+    <p class="label">The gap</p>
+    <h2 id="h-gap">Agent benchmarks score the answer. Investigations fail on the evidence.</h2>
+    <p class="lede">Forensic accounting engagements, internal investigations and due-diligence reviews are billable, high-value work. The core skill is building a defensible account from scattered, conflicting documents. Current agent benchmarks mostly grade a final answer, an end state or a whole deliverable. None of them checks, claim by claim, whether the evidence supports what the agent said.</p>
+    <div class="fails">
+      <div class="fail"><span class="num">FAILURE 1</span><b>A fluent timeline on a citation that doesn't say that</b><span>The quote exists. It just doesn't support the claim.</span></div>
+      <div class="fail"><span class="num">FAILURE 2</span><b>A contradiction missed in a routine document</b><span>The proof sits in a calendar entry, not in the email everyone reads.</span></div>
+      <div class="fail"><span class="num">FAILURE 3</span><b>A confident answer the record can't support</b><span>The right answer was "insufficient evidence", plus a next step.</span></div>
+    </div>
+  </section>
+
+  <section class="block" aria-labelledby="h-task">
+    <p class="label">One task, worked end to end</p>
+    <h2 id="h-task">FA-07, "The Helpful Vendor"</h2>
+    <div class="case">
+      <div class="case-head"><b>Hotline tip: the AP manager is "taking care of" a new vendor</b><span>312 items · email, chat, AP/GL ledger, vendor master log, receiving log, calendars · 1–4 h agent budget</span></div>
+      <div class="case-grid">
+        <div>
+          <h3>Hidden ground truth (regenerated per seed)</h3>
+          <ul>
+            <li>Kestrel Industrial Supply was added under the AP manager's credentials; its bank account changed two weeks later.</li>
+            <li>Its address matches a relative's address in an HR form.</li>
+            <li>14 invoices, <span class="num">$108,750</span>. Nine, <span class="num">$81,450</span>, have no goods receipt: six split just under the <span class="num">$10,000</span> dual-approval threshold, one of <span class="num">$14,200</span>, two small ones. Totals are checked in code.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>What experts planted</h3>
+          <p class="plant"><b>Contradiction C1.</b> The $14,200 invoice carries the CFO's approval stamp, but the CFO's calendar shows a flight with no connectivity that day, and the audit log shows the approval came from the AP manager's workstation.</p>
+          <p class="plant q"><b>Unanswerable Q4.</b> "Did the AP manager get paid by Kestrel?" There are no personal bank records. Correct answer: INSUFFICIENT_EVIDENCE, plus a next step.</p>
+          <p class="fine">The trap: a fluent memo that names the CFO as co-approver.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" aria-labelledby="h-grade">
+    <p class="label">How grading works · try it</p>
+    <h2 id="h-grade">Code checks first. The judge only rules on what code can't.</h2>
+    <div class="grader">
+      <div class="claims" id="claims" role="group" aria-label="Claims from an example submission"></div>
+      <div class="pipe" aria-live="polite">
+        <div class="step" id="s1"><i>1</i><b>Citation exists <small>code</small></b><span id="s1t">Quoted span must appear verbatim in the cited document of this instance.</span></div>
+        <div class="step" id="s2"><i>2</i><b>Numbers match <small>code</small></b><span id="s2t">Amounts and counts checked within tolerance.</span></div>
+        <div class="step" id="s3"><i>3</i><b>Span supports the claim <small>judge</small></b><span id="s3t">Judge sees only claim and span. Below the calibrated gate, an expert decides.</span></div>
+        <div class="step" id="s4"><i>4</i><b>Consistent with contradictions <small>code</small></b><span id="s4t">A claim that contradicts a planted pair fails even if its quote is real.</span></div>
+        <p class="verdict" id="verdict">Pick a claim to grade it.</p>
+        <div class="scores">
+          <div class="score"><b class="num" id="recall">0 / 3</b><span>Verified Event Recall, this submission</span></div>
+          <div class="score"><b class="num" id="uar">0</b><span>Unsupported assertions so far</span></div>
+        </div>
+      </div>
+    </div>
+    <p class="fine">Illustrative submission written for this page, not a model result. It shows the grading logic, including the two failures the benchmark is built to expose.</p>
+  </section>
+
+  <section class="block" aria-labelledby="h-measure">
+    <p class="label">What it measures</p>
+    <h2 id="h-measure">Two headline numbers and a cost axis, not a weighted composite</h2>
+    <div class="headline">
+      <div class="metric"><b>Verified Event Recall</b><span>Expert-weighted share of true events recovered. An event counts only if its citations exist and support it. Right answer, wrong evidence: zero.</span></div>
+      <div class="metric"><b>Unsupported Assertion Rate</b><span>Fabricated or non-supporting citations, plus confident answers to unanswerable questions, per 100 claims.</span></div>
+      <div class="metric"><b>Cost per verified claim</b><span>Dollars and tool calls, on a score-vs-cost frontier next to a priced human expert baseline.</span></div>
+    </div>
+    <div class="card">
+      <h3>Diagnostics, reported separately</h3>
+      <ul>
+        <li>Contradiction detection precision and recall against planted pairs</li>
+        <li>Abstention calibration (Brier score)</li>
+        <li>Flag-then-assert gap: the agent flags a contradiction, then asserts the contradicted claim anyway</li>
+        <li>Isomorphic pass^k (all seeds of a template) vs. rerun pass^k, separating brittleness from noise</li>
+        <li>Expected error cost, with experts pricing each error type, and whether rankings survive their price ranges</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="block" aria-labelledby="h-trust">
+    <p class="label">Grader validity and contamination</p>
+    <h2 id="h-trust">The grader is validated, and contamination resistance is measured, not claimed</h2>
+    <div class="twocol">
+      <div class="card">
+        <h3>Grader agreement study</h3>
+        <ul>
+          <li>At least 60% of points come from deterministic or evidence-bound checks</li>
+          <li>Two forensic accountants double-label ~1,000 claims; Krippendorff's α per component, target ≥ 0.75</li>
+          <li>Judges from two or more model families vs. expert consensus, focused on false SUPPORTS</li>
+          <li>A component is automated only if judge-expert agreement is no worse than expert-expert agreement</li>
+          <li>Self-preference test and 30 planted near-miss submissions to attack the judge</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Solver-bound instances</h3>
+        <ul>
+          <li>Every run draws fresh seeds; names, amounts, dates and which document carries the proof all move</li>
+          <li>Fine-tune an open model on gold answers for half the seeds, then measure gains on seen vs. unseen vs. frozen tasks</li>
+          <li>Answer-transplant test: paste another seed's gold timeline into the prompt</li>
+          <li>Archives generated by a model family not under test</li>
+        </ul>
+      </div>
+    </div>
+    <div class="tiers">
+      <div class="tier"><b>Public seeds</b><span>30 released instances for research</span></div>
+      <div class="tier"><b>Held-out seeds</b><span>The APEX leaderboard, refreshed per run</span></div>
+      <div class="tier"><b>Canary templates</b><span>Never released, to catch overfitting to structure</span></div>
+    </div>
+  </section>
+
+  <section class="block" aria-labelledby="h-plan">
+    <p class="label">Plan · 12 weeks</p>
+    <h2 id="h-plan">One domain, built fully, with a fallback that never cuts the agreement study</h2>
+    <div class="plan" id="plan"></div>
+    <p class="fine">Experts: 3 forensic accountants (CFE or CPA) author and red-team templates and label claims; 1 senior reviewer signs off ground truth. I own the generator, environment, grader and analysis; the experts own the domain truth. Optional months 4–6: litigation discovery and a Spanish/English compliance slice on the same pipeline.</p>
+  </section>
+
+  <section class="block" aria-labelledby="h-ship">
+    <p class="label">Deliverables</p>
+    <h2 id="h-ship">What APEX gets at week 12</h2>
+    <div class="twocol">
+      <div class="card"><h3>Benchmark</h3><ul><li>CASEFILE-FA v1: 30 public instances across 6 templates, with archives, ground-truth event graphs and rubrics</li><li>Seeded generator, held-out seed space and 2 canary templates for a self-refreshing leaderboard</li></ul></div>
+      <div class="card"><h3>Methodology</h3><ul><li>Open grading harness with a calibrated judge threshold and escalation rule</li><li>~1,000 double-labeled claims plus the near-miss attack set</li><li>Paper: "Show Your Evidence", plus a note on reusing the claim-level grader for diligence memos</li></ul></div>
+    </div>
+  </section>
+
+  <section class="block" aria-labelledby="h-why">
+    <p class="label">Why me</p>
+    <h2 id="h-why">I've already built this loop, as a game</h2>
+    <div class="why">
+      <a class="card" href="https://github.com/NataliaMw/cold-case" target="_blank" rel="noopener"><span class="tag">Cold Case · OpenAI Build Week 2026</span><h3>The core loop, in game form</h3><span>Teams rebuild an evidence-cited timeline and catch planted contradictions. In the code: quote existence is a deterministic substring check, the model judges support, calls under a 0.6 confidence gate go to a human, with an offline fallback.</span></a>
+      <a class="card" href="https://github.com/NataliaMw/keymark" target="_blank" rel="noopener"><span class="tag">Aquí Aprenderás · OpenAI Build Week 2026</span><h3>Solver-Bound Validity</h3><span>parameterize(seed), solve, fingerprint, verify: an answer is valid only for its own instance. CASEFILE applies the same principle to models.</span></a>
+      <a class="card" href="https://github.com/NataliaMw/aegis" target="_blank" rel="noopener"><span class="tag">AEGIS · iSAFE Hackathon 2026</span><h3>Keep in code what can live in code</h3><span>Agent guardrails and attack suites with zero LLM inference, and an accountability trace for every decision.</span></a>
+      <a class="card" href="../"><span class="tag">Jelou AI · since Apr 2023</span><h3>Production agents, every day</h3><span>I lead the workflow engine that runs thousands of enterprise automations a day, own the agents service, and built the multi-LLM router. At ESPOL I design grading rubrics for a software-testing course.</span></a>
+    </div>
+  </section>
+
+  <section class="block" aria-labelledby="h-risk">
+    <p class="label">Risks</p>
+    <h2 id="h-risk">What could go wrong, and the plan for each</h2>
+    <div class="risks">
+      <table>
+        <thead><tr><th>Risk</th><th>Mitigation</th></tr></thead>
+        <tbody>
+          <tr><td>Generated archives don't read as real, or leak exploitable artifacts</td><td>Expert-written example documents per type; a classifier checks whether signal documents are too easy to separate from noise; generator family not under test</td></tr>
+          <tr><td>The judge can't match expert agreement on partial support</td><td>Pre-registered fallback to binary labels or human grading; the disagreement data is published either way</td></tr>
+          <tr><td>A template allows more than one defensible reading</td><td>Timed blind expert solves; instances where experts disagree on a key event are cut</td></tr>
+          <tr><td>Seeds of one template differ in difficulty</td><td>Pre-registered equivalence thresholds in the pilot, reported drop rate</td></tr>
+          <tr><td>Expert authoring is the bottleneck</td><td>Minimum viable result: 4 public templates plus 1 canary; the agreement study is never cut</td></tr>
+          <tr><td>Employer and IP overlap</td><td>All companies and data fictional; no Jelou code, data or client information; time arrangement confirmed with Jelou before starting</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="fine">Related work: APEX-Agents (as far as public descriptions show, it doesn't plant cross-document contradictions or grade each cited claim), GDPval, TheAgentCompany, τ-bench, GAIA, SWE-bench Verified, LegalBench, FinanceBench, LiveBench and GSM-Symbolic. A week-1 literature memo for the APEX team checks each novelty claim.</p>
+  </section>
+</main>
+
+<footer class="close">
+  <div class="wrap">
+    <h2>Beyond the fellowship</h2>
+    <p>The claim-level citation grader and INSUFFICIENT_EVIDENCE scoring carry over to evaluating RAG answers from enterprise conversational agents, the systems I build at Jelou. That is a possible follow-on under Mercor's IP terms, not part of this scope.</p>
+    <div class="links">
+      <a href="../">My CV</a>
+      <a href="https://github.com/NataliaMw" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/nmawyin" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+const CLAIMS = [
+  {
+    text: "Kestrel was added to the vendor master under the AP manager's credentials.",
+    cite: "VENDOR_MASTER_LOG.csv · row 4471 · created_by=ap.mgr",
+    steps: ["pass", "skip", "pass", "pass"],
+    notes: ["Span found verbatim in VENDOR_MASTER_LOG.csv of this seed.", "No numbers in this claim.", "Judge: SUPPORTS, confidence 0.94, above the gate.", "No planted contradiction touches this event."],
+    verdict: ["pass", "Verified. Counts toward recall."],
+    event: 0,
+  },
+  {
+    text: "Nine invoices totaling $81,450 have no matching goods receipt.",
+    cite: "AP_LEDGER.csv ⋈ RECEIVING_LOG.csv · SQL result",
+    steps: ["pass", "pass", "pass", "pass"],
+    notes: ["Both tables exist in this instance.", "$81,450 matches ground truth within tolerance.", "Judge: SUPPORTS, confidence 0.91.", "Consistent with every planted pair."],
+    verdict: ["pass", "Verified. Counts toward recall."],
+    event: 1,
+  },
+  {
+    text: "The CFO co-approved the $14,200 invoice.",
+    cite: "INV-2291.pdf · \"Approved: CFO\"",
+    steps: ["pass", "pass", "warn", "fail"],
+    notes: ["The stamp text really is in INV-2291.pdf.", "$14,200 matches.", "Judge: PARTIAL, confidence 0.52, under the gate, so it goes to an expert.", "Contradicts planted pair C1: the CFO was in flight, and the audit log shows the AP manager's workstation."],
+    verdict: ["fail", "Fails. A real quote, the wrong conclusion. This is the trap the task is built around."],
+    event: null,
+  },
+  {
+    text: "The AP manager received $20,000 from Kestrel.",
+    cite: "EMAIL-0917.eml · \"sent you the 20k\"",
+    steps: ["fail", "skip", "skip", "skip"],
+    notes: ["No such span in EMAIL-0917.eml of this seed. Fabricated citation.", "Not reached.", "Not reached: a missing citation never reaches the judge.", "Not reached."],
+    verdict: ["fail", "Unsupported assertion. The right answer was INSUFFICIENT_EVIDENCE."],
+    event: null,
+    unsupported: true,
+  },
+];
+
+const claimsBox = document.getElementById("claims");
+const graded = new Set();
+const buttons = CLAIMS.map((claim, index) => {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "claim";
+  button.setAttribute("aria-pressed", "false");
+  button.innerHTML = `<q>${claim.text}</q><small>cites ${claim.cite}</small>`;
+  button.addEventListener("click", () => grade(index));
+  claimsBox.appendChild(button);
+  return button;
+});
+
+function grade(index) {
+  const claim = CLAIMS[index];
+  buttons.forEach((button, i) => button.setAttribute("aria-pressed", String(i === index)));
+  claim.steps.forEach((state, i) => {
+    const step = document.getElementById(`s${i + 1}`);
+    step.className = `step${state === "skip" ? "" : " on " + state}`;
+    document.getElementById(`s${i + 1}t`).textContent = claim.notes[i];
+  });
+  const verdict = document.getElementById("verdict");
+  verdict.className = `verdict ${claim.verdict[0]}`;
+  verdict.textContent = claim.verdict[1];
+  graded.add(index);
+  const recalled = [...graded].filter((i) => CLAIMS[i].event !== null).length;
+  const unsupported = [...graded].filter((i) => CLAIMS[i].verdict[0] === "fail").length;
+  document.getElementById("recall").textContent = `${recalled} / 3`;
+  document.getElementById("uar").textContent = String(unsupported);
+}
+
+const PLAN = [
+  ["Weeks 1–2", "Literature memo, frozen task schema, APEX-Agents-style harness, FA-07 rendering from any seed, analysis plan pre-registered", 16],
+  ["Weeks 3–4", "Seven more templates authored and red-teamed with timed blind expert solves; deterministic grader built", 33],
+  ["Weeks 5–6", "Pilot: 3 models × 8 templates × 5 seeds; seed-equivalence tests; templates frozen as v1", 50],
+  ["Weeks 7–8", "Agreement study on ~1,000 claims, cross-family judge tests, near-miss attacks, expert error pricing", 66],
+  ["Weeks 9–10", "Full run on held-out and canary seeds; fine-tuning contamination experiment; cost frontier with CIs", 83],
+  ["Weeks 11–12", "Failure taxonomy, paper draft, public release, held-out leaderboard handed to APEX", 100],
+];
+const plan = document.getElementById("plan");
+for (const [weeks, text, progress] of PLAN) {
+  const row = document.createElement("div");
+  row.className = "week";
+  row.innerHTML = `<span class="num">${weeks}</span><div><p>${text}</p><div class="bar" style="--p:${progress}%" aria-hidden="true"></div></div>`;
+  plan.appendChild(row);
+}
+
+grade(2);
+</script>
+</body>
+</html>
