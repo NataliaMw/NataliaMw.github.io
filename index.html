@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Natalia Mawyin</title>
+<meta name="description" content="Natalia Mawyin Cabay, Tech Lead at Jelou AI. Multi-LLM orchestration, agent runtimes, workflow engines.">
+<meta property="og:title" content="Natalia Mawyin">
+<meta property="og:description" content="Tech Lead at Jelou AI. Type a sentence and watch your rhythm draw itself next to mine.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Hanken+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Martian+Mono:wght@400;500&display=swap">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Ccircle cx=%2216%22 cy=%2216%22 r=%2214%22 fill=%22%230c0d12%22/%3E%3Cpath d=%22M16 16m-9 0a9 9 0 1 0 18 0a6 6 0 1 0-12 0a3 3 0 1 0 6 0%22 fill=%22none%22 stroke=%22%2367e8f9%22 stroke-width=%222%22/%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip" href="#work">Skip to work</a>
+
+<header class="band hero" id="top">
+  <div class="wrap hero-grid">
+    <div class="hero-text">
+      <nav class="topnav" aria-label="Page">
+        <a href="https://github.com/NataliaMw" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://www.linkedin.com/in/nmawyin" target="_blank" rel="noopener">LinkedIn</a>
+        <button class="pill" id="plain-toggle" type="button" aria-pressed="false">Plain résumé</button>
+      </nav>
+      <h1 class="name">Natalia<br>Mawyin Cabay</h1>
+      <p class="role">Tech Lead at <strong>Jelou AI</strong>. I build the systems that turn language models into production.</p>
+      <ul class="figures">
+        <li class="t1"><b class="num">35%</b><span>faster responses</span></li>
+        <li class="t2"><b class="num">18+</b><span>services mentored</span></li>
+        <li class="t3"><b class="num">4</b><span>LLM providers, one router</span></li>
+        <li class="t4"><b class="num">14</b><span>side projects built</span></li>
+      </ul>
+      <p class="palette" aria-label="Page palette taken from my typing rhythm">
+        <span class="swatches" id="swatches" aria-hidden="true"></span>
+        <span>This page's colors come from how I type.</span>
+      </p>
+    </div>
+
+    <figure class="instrument" aria-label="TypeDNA, running live">
+      <div class="inst-head">
+        <span><span class="dot" aria-hidden="true"></span>TypeDNA, live</span>
+        <button class="mini" id="motion-toggle" type="button" aria-pressed="false">Pause motion</button>
+      </div>
+      <div class="stage" id="stage">
+        <div class="panel">
+          <canvas id="her-canvas" width="640" height="640" role="img" aria-label="A generative helix drawn from Natalia's typing rhythm"></canvas>
+          <span class="panel-label" id="her-label">Natalia</span>
+        </div>
+        <div class="panel" id="you-panel" hidden>
+          <canvas id="you-canvas" width="640" height="640" role="img" aria-label="A generative helix drawn from your typing rhythm"></canvas>
+          <span class="panel-label">You</span>
+        </div>
+      </div>
+      <p class="reading" id="reading"></p>
+      <p class="sr-only" id="announce" aria-live="polite"></p>
+      <div class="typer" id="typer">
+        <label for="type-input">Type this, and your rhythm draws itself next to mine:</label>
+        <p class="sentence" id="sentence"></p>
+        <textarea id="type-input" rows="2" spellcheck="false" autocomplete="off" autocapitalize="off" aria-describedby="privacy"></textarea>
+        <div class="row">
+          <span id="privacy">Only key timing is measured, in your browser. Nothing is sent.</span>
+          <span class="meter" id="meter">0 / 40</span>
+          <button class="mini" id="reset" type="button">Reset</button>
+        </div>
+      </div>
+      <p class="note" id="touch-note" hidden>Phone keyboards don't report key timing. Open this on a laptop to draw yours.</p>
+      <p class="note" id="quality-note" hidden>This keyboard isn't reporting reliable timing, so there's nothing honest to draw.</p>
+      <div class="record" id="record" hidden>
+        <textarea id="record-out" readonly aria-label="Recorded keystroke timings"></textarea>
+        <button class="mini" id="record-copy" type="button">Copy recording</button>
+      </div>
+      <figcaption class="inst-foot">Same generator as <a href="https://github.com/NataliaMw/type-dna/blob/84a6cd4cfef0df84cc64d812fd0f52250e67133e/src/lib/visual-generator.ts" target="_blank" rel="noopener">the repo</a>, with the clock slowed 150× so it drifts instead of spins.</figcaption>
+    </figure>
+  </div>
+</header>
+
+<main>
+  <section class="wrap block visual-only" id="work" aria-labelledby="h-work">
+    <div class="block-head">
+      <h2 id="h-work"><span class="chip-label t1">At Jelou</span>The path a message takes through what I built</h2>
+      <p class="when">Apr 2023 – now · Guayaquil</p>
+    </div>
+    <ol class="flow" id="flow" aria-label="Simplified architecture, tap a step">
+      <li><button type="button" class="node t4" data-tech="" data-detail="Enterprise chatbots for Jelou's clients. Every conversation enters here.">
+        <span class="k">In</span><b>Conversations</b><small>enterprise chatbots</small></button></li>
+      <li><button type="button" class="node t1" data-tech="NestJS TypeScript" data-detail="I led the architecture of Jelou's core Workflow Engine Service: an RPA engine with AI-powered nodes that runs thousands of automated workflows a day.">
+        <span class="k">Led</span><b>Workflow engine</b><small>thousands a day</small></button></li>
+      <li><button type="button" class="node t2" data-tech="Python FastAPI LangGraph" data-detail="I own the AI Agents microservice, built on FastAPI and LangChain/LangGraph: tool calling, RAG retrieval and autonomous decisions.">
+        <span class="k">Own</span><b>Agents service</b><small>tools · RAG</small></button></li>
+      <li><button type="button" class="node t3" data-tech="Pinecone Python" data-detail="I designed the multi-LLM orchestration layer. Semantic routing over Pinecone picks the model for each request. Latency dropped 35% and relevance improved.">
+        <span class="k">Designed</span><b>Semantic router</b><small>−35% latency</small></button></li>
+      <li class="models">
+        <button type="button" class="node model" data-tech="OpenAI" data-detail="One of four providers behind the same contract.">OpenAI</button>
+        <button type="button" class="node model" data-tech="Claude" data-detail="One of four providers behind the same contract.">Claude</button>
+        <button type="button" class="node model" data-tech="" data-detail="One of four providers behind the same contract.">Gemini</button>
+        <button type="button" class="node model" data-tech="" data-detail="One of four providers behind the same contract.">DeepSeek</button>
+      </li>
+    </ol>
+    <p class="detail" id="flow-detail" aria-live="polite"></p>
+    <div class="side-facts">
+      <p class="t2"><b class="num">18+</b> production services where I mentor the team on microservices, review and NestJS/TypeScript</p>
+      <p class="t3"><b>PyTorch + Word2Vec</b> product recommender, served in real time through FastAPI</p>
+    </div>
+    <p class="fine">Simplified. The Jelou work is proprietary, so these figures are internal. Everything below is public.</p>
+  </section>
+
+  <section class="wrap block visual-only" aria-labelledby="h-time">
+    <div class="block-head"><h2 id="h-time"><span class="chip-label t2">Timeline</span>2019 to now</h2></div>
+    <div class="timeline" id="timeline" role="list"></div>
+  </section>
+
+  <section class="wrap block visual-only" aria-labelledby="h-lab">
+    <div class="block-head">
+      <h2 id="h-lab"><span class="chip-label t3">The lab</span>Things I build on my own time</h2>
+      <div class="chips" id="chips" role="group" aria-label="Light up where I used a technology"></div>
+      <p class="filter-status" id="filter-status" aria-live="polite"></p>
+    </div>
+    <div class="tiles">
+      <a class="tile wide" data-tech="Node.js OpenAI" href="https://github.com/NataliaMw/cold-case" target="_blank" rel="noopener">
+        <img src="img/cold-case.jpg" alt="Cold Case evidence room: case brief, private archive documents and a cited timeline form" loading="lazy" width="1400" height="875">
+        <span class="tile-body"><span class="tag t1">OpenAI Build Week</span><b>Cold Case</b><span>Detective game. Teams rebuild a timeline, cite every claim, and catch contradictions.</span></span>
+      </a>
+      <a class="tile" data-tech="TypeScript" href="https://github.com/NataliaMw/aegis" target="_blank" rel="noopener">
+        <img src="img/aegis.jpg" alt="AEGIS trace blocking a prompt injection with two detected threats" loading="lazy" width="540" height="738" class="top">
+        <span class="tile-body"><span class="tag t2">iSAFE Hackathon 2026</span><b>AEGIS</b><span>Guardrails for agents with zero LLM calls, so they can't be prompt-injected.</span></span>
+      </a>
+      <a class="tile" data-tech="Node.js OpenAI" href="https://github.com/NataliaMw/keymark" target="_blank" rel="noopener">
+        <img src="img/aqui-aprenderas.jpg" alt="Cover art: one template document branching into four unique problem instances with their own codes" loading="lazy" width="1400" height="740">
+        <span class="tile-body"><span class="tag t3">OpenAI Build Week</span><b>Aquí Aprenderás</b><span>Every solver gets a unique problem, so a copied answer fails.</span></span>
+      </a>
+      <a class="tile" data-tech="Node.js OpenAI" href="https://github.com/NataliaMw/because-therefore" target="_blank" rel="noopener">
+        <img src="img/because-therefore.jpg" alt="Cover art: colorful cards linked by because and therefore arrows" loading="lazy" width="1400" height="740">
+        <span class="tile-body"><span class="tag t4">OpenAI Build Week</span><b>Because, Therefore</b><span>Party game: rebuild real cause chains, dodge the card that only looks causal.</span></span>
+      </a>
+      <a class="tile" data-tech="TypeScript Next.js Canvas" href="https://github.com/NataliaMw/type-dna" target="_blank" rel="noopener">
+        <canvas id="tile-canvas" width="640" height="400" aria-hidden="true"></canvas>
+        <span class="tile-body"><span class="tag t1">running above</span><b>TypeDNA</b><span>Keystroke dynamics turned into generative art.</span></span>
+      </a>
+      <a class="tile solid t2" data-tech="TypeScript Next.js Three.js React" href="https://github.com/NataliaMw/tiny-museum" target="_blank" rel="noopener">
+        <span class="tile-art" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span class="tile-body"><span class="tag">open source</span><b>Tiny Museum</b><span>A 3D gallery in the browser. Your images, under spotlights.</span></span>
+      </a>
+    </div>
+    <ul class="smalls" aria-label="Smaller builds">
+      <li data-tech="TypeScript Next.js Claude"><a href="https://github.com/NataliaMw/receipt-split" target="_blank" rel="noopener">Receipt Split</a><span>receipt photo to split bill</span></li>
+      <li data-tech="TypeScript Next.js Claude"><a href="https://github.com/NataliaMw/font-feels" target="_blank" rel="noopener">Font Feels</a><span>vibe to font pairing</span></li>
+      <li data-tech="TypeScript Next.js Claude"><a href="https://github.com/NataliaMw/mood-playlist" target="_blank" rel="noopener">Mood Playlist</a><span>feelings to ten songs</span></li>
+      <li data-tech="TypeScript Next.js D3"><a href="https://github.com/NataliaMw/pixel-passport" target="_blank" rel="noopener">Pixel Passport</a><span>travel map</span></li>
+      <li data-tech="TypeScript Next.js Canvas"><a href="https://github.com/NataliaMw/palette-thief" target="_blank" rel="noopener">Palette Thief</a><span>image to palette</span></li>
+      <li data-tech="TypeScript Next.js"><a href="https://github.com/NataliaMw/og-image-api" target="_blank" rel="noopener">OG Image API</a><span>social cards on the fly</span></li>
+      <li data-tech="TypeScript Node.js"><a href="https://github.com/NataliaMw/cli-pomodoro" target="_blank" rel="noopener">CLI Pomodoro</a><span>terminal timer</span></li>
+      <li data-tech="TypeScript Expo React"><span class="plainname">Override</span><span>habit enforcer · private</span></li>
+    </ul>
+  </section>
+
+  <section class="wrap block" id="resume" aria-labelledby="h-resume" hidden>
+    <h2 id="h-resume">Résumé</h2>
+    <article>
+      <h3>Tech Lead, Jelou AI <span class="when">Apr 2023 – now · Guayaquil, Ecuador</span></h3>
+      <ul>
+        <li>Led the architecture of Jelou's core Workflow Engine Service, an RPA engine with AI-powered nodes running thousands of automated workflows a day for enterprise clients.</li>
+        <li>Designed a multi-LLM orchestration layer across OpenAI, Claude, Gemini and DeepSeek with semantic routing through Pinecone vector search, reducing response latency 35% and improving answer relevance.</li>
+        <li>Own the AI Agents microservice (FastAPI, LangChain/LangGraph): tool calling, RAG retrieval and autonomous decision-making for enterprise chatbots.</li>
+        <li>Mentor developers on microservice patterns, code review and NestJS/TypeScript practice across 18+ production services.</li>
+        <li>Built an AI product recommendation system with PyTorch neural encoders and Word2Vec embeddings, served through FastAPI for real-time inference.</li>
+      </ul>
+    </article>
+    <article>
+      <h3>Laboratory Technician, ESPOL <span class="when">May 2023 – now</span></h3>
+      <ul>
+        <li>Build and maintain lab environments for the Software Engineering courses: Python setups, microservice toolchains, containerized workstations.</li>
+        <li>Contribute to faculty research on data collection, experiment design and ML prototyping.</li>
+      </ul>
+    </article>
+    <article>
+      <h3>Logical Security Intern, Telconet <span class="when">Feb – Aug 2022</span></h3>
+      <ul>
+        <li>Built an Angular inventory system for the security operations team; supported vulnerability assessments and security policy documentation.</li>
+      </ul>
+    </article>
+    <article>
+      <h3>Education</h3>
+      <ul><li>BSc Computer Science, Escuela Superior Politécnica del Litoral (ESPOL), 2019 – 2023</li></ul>
+    </article>
+    <article>
+      <h3>Certifications</h3>
+      <ul>
+        <li>EF SET English C1 Advanced, C2 reading and listening (2025)</li>
+        <li>AWS IAM Introduction (2025) · Hacking Arsenal Setup (2025) · Agile Testing (2025) · NLP with Transformers in Python (2024)</li>
+      </ul>
+    </article>
+    <article>
+      <h3>Skills</h3>
+      <ul>
+        <li>Python, TypeScript, Go, PHP, Java, Dart, C</li>
+        <li>LangChain, LangGraph, HuggingFace Transformers, PyTorch, TensorFlow, scikit-learn, Vercel AI SDK, RAG</li>
+        <li>FastAPI, NestJS, Flask, Django, Angular, React, Flutter, Laravel</li>
+        <li>PostgreSQL, MongoDB, MySQL, Pinecone, DynamoDB, Redis · AWS, Docker, Fly.io, GitHub Actions</li>
+        <li>English C1, Spanish native</li>
+      </ul>
+    </article>
+  </section>
+
+  <section class="band contact">
+    <div class="wrap contact-grid">
+      <h2>Let's build something.</h2>
+      <div class="contact-links">
+        <a href="https://www.linkedin.com/in/nmawyin" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://github.com/NataliaMw" target="_blank" rel="noopener">GitHub</a>
+      </div>
+      <p class="colophon">Plain HTML, no framework. <a href="typedna.js">typedna.js</a> is TypeDNA's generator and analyzer with only the types removed. Updated September 2026 · Guayaquil.</p>
+    </div>
+  </section>
+</main>
+
+<script src="typedna.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
